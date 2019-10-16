@@ -7,6 +7,13 @@
 
     <img v-bind:src="product.image_url" v-bind:alt="product.name">
 
+    <div>
+      <router-link v-bind:to=" '/products/' + product.id + '/edit' ">Edit</router-link>
+      <button v-on:click="destroyProduct()">Destroy</button>
+    </div>
+
+
+
 
   </div>
 </template>
@@ -27,6 +34,7 @@ export default {
   data: function() {
     return {
       product: {
+        id: "", 
         name: "", 
         price: "",
         description: "",
@@ -48,6 +56,16 @@ export default {
       });
 
   },
-  methods: {}
+  methods: {
+
+      destroyProduct: function() {
+      axios
+        .delete("/api/products/" + this.product.id)
+        .then(response => {
+          this.$router.push("/");  
+
+        }); 
+    }
+  } 
 };
 </script>
